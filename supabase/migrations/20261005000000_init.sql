@@ -67,6 +67,12 @@ create policy "own links" on public.links for all
 create policy "read own usage" on public.claude_usage for select
   using (owner = (select auth.uid()));
 
+-- New tables aren't exposed to the Data API automatically, so grant exactly what's needed.
+-- The index tables allow delete because they're rebuildable; the files themselves never are deleted.
+grant select, insert, update, delete on public.items, public.links to authenticated;
+grant select on public.claude_usage to authenticated;
+grant all on public.items, public.links, public.claude_usage to service_role;
+
 -- The vault itself: one private bucket, each user's files under a folder named by their id.
 insert into storage.buckets (id, name, public) values ('vault', 'vault', false)
   on conflict (id) do nothing;
