@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@stead/core": "workspace:*",
+    "@supabase/supabase-js": "^2.117.2",
     "next": "^15.5.27",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
