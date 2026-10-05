@@ -1,7 +1,7 @@
 # Build status
 
-Updated 5 October 2026 (Phase 1, steps 2-4). Read this after CLAUDE.md to pick up where the last
-session left off.
+Updated 5 October 2026 (Phase 1, steps 2-4 done; step 5 partly done). Read this after CLAUDE.md to
+pick up where the last session left off.
 
 ## How work flows
 
@@ -98,8 +98,26 @@ In order:
    (hours/week) placeholder from the Phase 0 sample vault, since this step's brief named "the Family
    ring commitment" specifically. Faith, Uni and Health have no real weekly-hour target recorded
    anywhere, so their rings won't mean anything until Dan sets one.
-5. Capture box with "Saves as" chips; natural-language dates parsed locally first, Claude (Haiku)
-   only for type, area and people. Every call logged to `claude_usage` and checked against the cap.
+5. **Partly done 5 Oct** (local-only pieces; Claude classification still blocked):
+   - `packages/core/src/capture-dates.ts`: `parseNaturalDate()` handles today/tomorrow, a bare or
+     "next" weekday, "in N days/weeks", and a time of day. Tested (`pnpm test`, 36 passing).
+   - `apps/web/src/lib/claude-usage.ts`: `monthlyUsageStatus()` and `logClaudeUsage()` against
+     `claude_usage`. Verified live: ok at $0, warn at $30, blocked at $55, test rows removed after.
+   - `apps/web/src/app/capture-box.tsx` + `apps/web/src/app/api/capture/route.ts`: one input on
+     Home, always files to the inbox as a capture (correct default per constitution §5 — nothing's
+     classified yet, so everything is "genuinely unclear") and shows the local date guess as a chip.
+     Verified live against the real vault.
+   - **Not built: the Claude (Haiku) call for type, area and people.** `ANTHROPIC_API_KEY` is empty
+     in `.env.local` — there's nothing to test it against, and writing an unexecuted integration
+     isn't worth the risk of shipping something broken. Needs the key, then: call Haiku, log to
+     `claude_usage` via `logClaudeUsage()`, check `monthlyUsageStatus()` before calling (refuse at
+     `blocked`), and file confidently-classified captures straight to their type/area instead of
+     leaving everything in the inbox.
+   - **Flag for Dan:** two real capture items from live-testing the capture box are sitting in the
+     real inbox ("call the dentist tomorrow 3pm", "idea: keep a list of MMA drills Ryan likes") —
+     left in place rather than deleted, per "nothing deletes". Also still there from step 2's
+     testing: a closed note titled "Smoke test note". Safe to archive/ignore, or triage for real if
+     any happen to be useful.
 6. Home v3 layout: Needs you, Today, next 7 days, side column. Design reference is the
    "Second Brain Home Directions" canvas.
 7. 7-day calendar from iCloud over CalDAV (app-specific password as a Vercel secret), skipping
