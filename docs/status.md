@@ -52,8 +52,10 @@ and by Dan using the preview deployment on his phone.
 
 In order:
 
-1. Vercel project linked to this repo, functions in Sydney (`syd1`). Dan creates it so every push
-   gets a preview link he can open on his phone.
+1. ~~Vercel project~~ Done 5 Oct: linked to this repo, root `apps/web`, functions pinned to `syd1`
+   by `apps/web/vercel.json`. Only the two public Supabase variables are set. The live site has no
+   gate yet and only shows the sample vault (it may show 0 items, since `sample-vault/` sits outside
+   `apps/web`); that's expected until step 2.
 2. Supabase adapters behind the core's interfaces: a `FileStore` on the private `vault` bucket
    (files under `<owner id>/`) and an `ItemIndex` on `public.items` + `public.links`, both using the
    secret key server-side only. Keep them outside `packages/core`.
