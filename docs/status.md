@@ -40,6 +40,41 @@ and by Dan using the preview deployment on his phone.
   wrong tries. Verified live: redirect when logged out, wrong code rejected, lockout after 5 tries,
   correct code sets the cookie and unlocks the app.
 
+## Director review, 5 Oct evening (fix before step 6)
+
+Reviewed steps 2 to 5 against the constitution. Tests (36), typecheck and build all pass; owner
+scoping is applied on every service-role query. Fix these, in this order, each with a test:
+
+1. **File history doesn't exist yet.** `SupabaseFileStore.write` overwrites in place and Storage has
+   no versioning, so an edit destroys the previous version. Constitution §13 says the vault has git
+   history. Add the GitHub mirror now, before more real data lands: every write is also committed to
+   a private `dhussss/stead-vault` repo (Dan creates it) through the GitHub API, batched so one
+   capture is one commit, and failures queue and retry rather than block the write. Add a status
+   line showing when the mirror last succeeded.
+2. **The lockout can be bypassed with parallel requests.** `/api/gate` reads `failures`, then
+   writes, so 100 simultaneous guesses all see 0 failures. Replace with one atomic Postgres function
+   (security definer, execute granted to service_role only) that checks the lock and increments the
+   counter in a single statement *before* the code is compared. Add a test that fires 20 concurrent
+   wrong codes and expects at most 5 to be evaluated.
+3. **The gate cookie can leak the passcode.** It's an HMAC keyed only by the 6-digit code, so a
+   copied cookie lets someone recover the code offline in seconds. Key it with a new random
+   `STEAD_GATE_SECRET` (32+ bytes, Vercel only) plus the passcode, so changing either still logs
+   every device out.
+4. **Capture is slow by design.** `Vault.create` checks slug uniqueness with the index and then 9
+   Storage `list` calls in series. In the hosted vault the index is authoritative: let the vault
+   take an option to trust the index for slug checks and skip the per-folder file probes. Measure a
+   capture round trip on the live site before and after; aim for under a second.
+5. **"Saves as" should show before saving, and what it shows should be kept.** The date chip
+   appears only after the save and the parsed date is thrown away. Show the local date chip live as
+   Dan types (free, no Claude). Store the parsed date on the item (`due` once it's triaged into a
+   task; keep it in a `date_hint` field on the capture until then). Type, area and people chips from
+   Haiku appear right after saving and each one is tappable to correct. Capture must never wait on Claude.
+
+## Questions for Dan
+
+- Weekly hour targets for the four rings: Family, Faith, Uni, Health. Family's 10 hours is a
+  placeholder carried over from the sample vault.
+
 ## Decisions (5 October 2026)
 
 - **No sign-in system until later.** Dan's call: last build lost weeks to auth. Stead runs as a
