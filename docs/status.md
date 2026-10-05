@@ -79,13 +79,14 @@ In order:
    by `apps/web/vercel.json`. Only the two public Supabase variables are set.
 2. ~~Supabase adapters~~ Done 5 Oct: `SupabaseFileStore` and `SupabaseItemIndex` in
    `apps/web/src/lib/supabase/`, wired into `openVault()`. Tested live against the real project.
-   **Still local-only**: `SUPABASE_SECRET_KEY` and `STEAD_OWNER_ID` are in `.env.local` but not yet
-   in Vercel (held back deliberately, see step 3).
 3. ~~The passcode gate~~ Done 5 Oct: middleware, `/gate`, `/api/gate`, `passcode_attempts` table.
-   Tested live (redirect, wrong code, lockout, correct code). **Not yet deployed**: `STEAD_PASSCODE`
-   isn't in Vercel either. Next session (or Dan, directly): add `SUPABASE_SECRET_KEY`,
-   `STEAD_OWNER_ID` and `STEAD_PASSCODE` to Vercel's production env, then the live site is gated
-   and reads the real (currently empty) vault instead of the sample one.
+   Tested live (redirect, wrong code, lockout, correct code).
+   **Deployed 5 Oct**: `SUPABASE_SECRET_KEY`, `STEAD_OWNER_ID` and `STEAD_PASSCODE` are set in
+   Vercel for Production and Preview (`.vercel/project.json` now links the repo root, not
+   `apps/web`, so the monorepo's Root Directory setting resolves correctly on deploy). Production
+   redeployed and confirmed live: `https://stead-ecru.vercel.app/` redirects to `/gate`, `/gate`
+   loads, a wrong code is rejected. The real vault (currently just the areas from step 4, plus a
+   couple of test items) is what's live now, not the sample vault.
 4. ~~Seed the six top-level areas~~ Done 5 Oct: `apps/web/src/lib/seed-areas.ts` defines Uni,
    Career, Faith, Health, Personal, People, plus the known sub-areas (UWAYE under Uni; INPEX and
    Gyprocking under Career; Training, Exercise, Diet, Sleep under Health; Family under People).
