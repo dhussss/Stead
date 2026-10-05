@@ -1,6 +1,7 @@
 # Build status
 
-Updated 5 October 2026. Read this after CLAUDE.md to pick up where the last session left off.
+Updated 5 October 2026 (Phase 1, steps 2-3). Read this after CLAUDE.md to pick up where the last
+session left off.
 
 ## How work flows
 
@@ -13,9 +14,31 @@ and by Dan using the preview deployment on his phone.
 
 - Phase 0: constitution (`docs/constitution.md`), item format (`docs/item-format.md`), headless
   core with tests (`packages/core`), Next.js skeleton (`apps/web`), sample vault.
-- Supabase project "Stead" (ref `lbwxmmsdyhneeijpjlib`, Sydney). Both migrations in
-  `supabase/migrations` are applied. Security advisor is clean.
-- Public config in `apps/web/.env.example`. Secrets live only in `.env.local` and Vercel.
+- Supabase project "Stead" (ref `lbwxmmsdyhneeijpjlib`, Sydney). All three migrations in
+  `supabase/migrations` are applied. Security advisor is clean (the one INFO notice on
+  `passcode_attempts` having RLS with no policies is by design: only the service role touches it).
+- Public config in `apps/web/.env.example`. Secrets live only in `.env.local` and (from here on)
+  Vercel.
+- **Phase 1 step 2: Supabase adapters**, `apps/web/src/lib/supabase/`. `SupabaseFileStore`
+  (`file-store.ts`) reads and writes the private `vault` bucket under the fixed owner's folder.
+  `SupabaseItemIndex` (`item-index.ts`) keeps `public.items` and `public.links` in sync, recomputing
+  an item's outgoing links on every upsert. `openVault()` (`apps/web/src/lib/vault.ts`) uses them once
+  `SUPABASE_SECRET_KEY` and `STEAD_OWNER_ID` are set, and reads the persistent index as-is rather
+  than rebuilding it on every request (rebuild is a maintenance operation, not a page load). Falls
+  back to the sample vault otherwise, so local dev is unchanged. Verified live end to end
+  (create, read back, index, close) before removing the test scaffolding.
+- The one fixed owner: a Supabase Auth user exists purely so `owner` columns have something to
+  reference (`id`, in `.env.local` as `STEAD_OWNER_ID`). Created via the admin API, tied to Dan's
+  email, no password ever used and no login screen involved — nobody signs in with it. This keeps
+  the multi-user foundation intact for when real sign-in arrives, per the Decisions below.
+- **Phase 1 step 3: the passcode gate.** `supabase/migrations/20261005000200_passcode_attempts.sql`
+  adds `public.passcode_attempts` (RLS on, no policies — service role only). `apps/web/src/middleware.ts`
+  blocks every route on the Edge, checking an httpOnly cookie against `HMAC(STEAD_PASSCODE)`
+  (`apps/web/src/lib/gate.ts`) with no database call, so changing the passcode invalidates every
+  cookie for free. `apps/web/src/app/gate/page.tsx` is the number-pad screen; `apps/web/src/app/api/gate/route.ts`
+  checks the lockout table, delays scaled to recent failures, and locks out for 15 minutes after 5
+  wrong tries. Verified live: redirect when logged out, wrong code rejected, lockout after 5 tries,
+  correct code sets the cookie and unlocks the app.
 
 ## Decisions (5 October 2026)
 
@@ -53,13 +76,16 @@ and by Dan using the preview deployment on his phone.
 In order:
 
 1. ~~Vercel project~~ Done 5 Oct: linked to this repo, root `apps/web`, functions pinned to `syd1`
-   by `apps/web/vercel.json`. Only the two public Supabase variables are set. The live site has no
-   gate yet and only shows the sample vault (it may show 0 items, since `sample-vault/` sits outside
-   `apps/web`); that's expected until step 2.
-2. Supabase adapters behind the core's interfaces: a `FileStore` on the private `vault` bucket
-   (files under `<owner id>/`) and an `ItemIndex` on `public.items` + `public.links`, both using the
-   secret key server-side only. Keep them outside `packages/core`.
-3. The passcode gate (see Decisions), before real secrets go into Vercel.
+   by `apps/web/vercel.json`. Only the two public Supabase variables are set.
+2. ~~Supabase adapters~~ Done 5 Oct: `SupabaseFileStore` and `SupabaseItemIndex` in
+   `apps/web/src/lib/supabase/`, wired into `openVault()`. Tested live against the real project.
+   **Still local-only**: `SUPABASE_SECRET_KEY` and `STEAD_OWNER_ID` are in `.env.local` but not yet
+   in Vercel (held back deliberately, see step 3).
+3. ~~The passcode gate~~ Done 5 Oct: middleware, `/gate`, `/api/gate`, `passcode_attempts` table.
+   Tested live (redirect, wrong code, lockout, correct code). **Not yet deployed**: `STEAD_PASSCODE`
+   isn't in Vercel either. Next session (or Dan, directly): add `SUPABASE_SECRET_KEY`,
+   `STEAD_OWNER_ID` and `STEAD_PASSCODE` to Vercel's production env, then the live site is gated
+   and reads the real (currently empty) vault instead of the sample one.
 4. Seed the six top-level areas (and their known sub-areas, including Family under People) as area items.
 5. Capture box with "Saves as" chips; natural-language dates parsed locally first, Claude (Haiku)
    only for type, area and people. Every call logged to `claude_usage` and checked against the cap.
