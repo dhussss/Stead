@@ -1,0 +1,26 @@
+@import "./themes.css";
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--tint);
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+.frame { min-height: 100vh; padding: 12px; display: flex; gap: 12px; }
+.sidebar { width: 220px; padding: 16px 8px; color: var(--ink); font-weight: 600; }
+.panel { flex: 1; background: var(--panel); border-radius: 16px; padding: 40px 48px; }
+h1 { font-size: 30px; letter-spacing: -0.02em; margin: 0 0 4px; }
+.sub { color: var(--ink-2); margin: 0 0 32px; }
+h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--ink-2); margin: 32px 0 12px; }
+.row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; margin-bottom: 8px; background: var(--light); }
+.row .title { flex: 1; font-weight: 550; }
+.chip { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--panel); color: var(--main); }
+.when { font-size: 13px; color: var(--ink-2); }
+@keyframes flash { 50% { opacity: 0.55; } }
+.overdue { animation: flash 1.6s ease-in-out infinite; }
+@media (max-width: 720px) {
+  .sidebar { display: none; }
+  .panel { padding: 24px 16px; }
+}

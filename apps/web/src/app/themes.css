@@ -1,0 +1,38 @@
+/*
+ * Theme tokens from the Home v3 design. Each theme is a window tint, a main colour, a light
+ * version of the main, and one complementary accent (with soft and ink shades for chips).
+ * Switch themes with data-theme on <html>. Ocean · Coral is the default.
+ */
+:root,
+[data-theme="ocean-coral"] {
+  --tint: #d9e4f0; --main: #2b5c9e; --light: #eaf1fa;
+  --accent: #e07a5f; --accent-soft: #fbe9e3; --accent-ink: #a3482f;
+}
+[data-theme="ocean-sand"] {
+  --tint: #dce5ee; --main: #24507f; --light: #e9f0f7;
+  --accent: #d4a24c; --accent-soft: #f8eedb; --accent-ink: #8a6420;
+}
+[data-theme="fog-ochre"] {
+  --tint: #e4e8ec; --main: #3e5568; --light: #eef2f5;
+  --accent: #c98b3b; --accent-soft: #f7ebd9; --accent-ink: #8a5a1c;
+}
+[data-theme="fog-rose"] {
+  --tint: #e6e8ec; --main: #46586b; --light: #eff2f5;
+  --accent: #c9667e; --accent-soft: #f8e6eb; --accent-ink: #923a50;
+}
+[data-theme="graphite-amber"] {
+  --tint: #e2e2e5; --main: #2c2c30; --light: #f0f0f2;
+  --accent: #e0953a; --accent-soft: #fbeedc; --accent-ink: #94591a;
+}
+[data-theme="graphite-blue"] {
+  --tint: #e1e3e7; --main: #26272b; --light: #eff0f3;
+  --accent: #4f7fd1; --accent-soft: #e6eefb; --accent-ink: #2a56a0;
+}
+
+/* Area colours: the Blend set. */
+:root {
+  --area-family: #de7d66; --area-faith: #a688c8; --area-uni: #5689c4; --area-body: #6aa59c;
+  --ink: #1d1d1f; --ink-2: #6e6e73; --panel: #ffffff; --line: #ededeb;
+  /* Urgency: amber to red, used only once a task crosses the 7-day threshold. */
+  --urgent-amber: #e0953a; --urgent-red: #d64545;
+}

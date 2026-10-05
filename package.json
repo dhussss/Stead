@@ -1,0 +1,14 @@
+{
+  "name": "stead",
+  "private": true,
+  "packageManager": "pnpm@10.28.0",
+  "scripts": {
+    "test": "pnpm --filter @stead/core test",
+    "typecheck": "pnpm -r typecheck",
+    "build": "pnpm --filter @stead/web build",
+    "seed": "tsx scripts/seed-sample.mts"
+  },
+  "devDependencies": {
+    "tsx": "^4.23.15"
+  }
+}
