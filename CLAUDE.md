@@ -4,7 +4,8 @@ Dan's whole-life system: a headless core over plain markdown files, with a web a
 
 Before changing behaviour, read `docs/constitution.md` (how the system must behave) and
 `docs/item-format.md` (the file format). The discovery record that produced them is the Claude Doc
-"Second Brain Rebuild: Discovery".
+"Second Brain Rebuild: Discovery". `docs/status.md` says what's done and what's next; update it
+at the end of each session.
 
 ## Rules for building
 
