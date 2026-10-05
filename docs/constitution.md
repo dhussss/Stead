@@ -27,6 +27,8 @@ The types are task, note, person, question, decision, reflection, learn, area an
 
 Items **link**; they never own each other. Archiving or closing one item never touches another. A person mentioned anywhere gets a backlink, so their page shows every place they've touched Dan's life.
 
+The top-level areas are Uni, Career, Faith, Health, Personal and People. Everything else is a sub-area under one of them (UWAYE under Uni, INPEX and gyprocking under Career, training and sleep under Health). New top-level areas are always discussed with Dan first.
+
 Every item has a **stable home** it doesn't wander from. People re-find their own things mostly by going to where they put them, not by searching (Bergman et al. 2008), and interfaces that shuffle things around break spatial memory (Scarr et al. 2013). Search, including asking Claude, is the backup route.
 
 Items are either **open** or **closed**. Closing never deletes. When an item closes, Dan is asked for a reflection, and Claude drafts a **summary card**: the key takeaways, the reflection, a line of context and a link back. Dan signs the card off before it counts. The full item stays intact and is only opened when a question needs its detail. This is the RAM-and-disk model: working knowledge holds the short version plus a pointer, so every session stays small however much the archive grows. Closed items can reopen. They're read without being changed unless Dan asks.
@@ -87,7 +89,7 @@ A genuine concern (family going quiet, a relationship neglected, a deadline slip
 
 Reviews failed in the old system because nothing triggered them. So reflection is drip-fed: the reflection queue is always visible on Home, items can be reflected on and closed day by day, and Sunday is the due date for what's left. Reflection prompts compare what happened with what was planned, because reflection helps when there's feedback to reflect on (Anseel et al. 2009). Reviews are tied to a fixed time and place; there are no streak counters that punish a missed day (Lally et al. 2010).
 
-Hearth checks progress against each area's Goals & Vision, with weekly rings for the life commitments (Family, Faith, Uni, Body) and trends against goals. Monthly and yearly zoom-outs happen when the moment is right; the yearly one compares Dan with his own past self and values, and is also when this constitution is revisited.
+Hearth checks progress against each area's Goals & Vision, with weekly rings for the life commitments (currently Family, Faith, Uni and Health) and trends against goals. Monthly and yearly zoom-outs happen when the moment is right; the yearly one compares Dan with his own past self and values, and is also when this constitution is revisited.
 
 When Claude spots a real pattern (a recurring stress, a topic that keeps coming back, a person mentioned in a certain way), it says so and proposes an action. Naming it isn't enough.
 
@@ -135,4 +137,5 @@ The vault is a git repository, so every change has history. Where the reasoning 
 
 Changes to this constitution, most recent first.
 
+- 2026-10-05: Top-level areas set to Uni, Career, Faith, Health, Personal, People. Body renamed Health.
 - 2026-10-05: v2.0. Rewritten for Stead from the discovery record. Replaces the August 2026 constitution.
