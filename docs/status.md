@@ -1,6 +1,6 @@
 # Build status
 
-Updated 5 October 2026 (Phase 1, steps 2-3). Read this after CLAUDE.md to pick up where the last
+Updated 5 October 2026 (Phase 1, steps 2-4). Read this after CLAUDE.md to pick up where the last
 session left off.
 
 ## How work flows
@@ -86,7 +86,18 @@ In order:
    isn't in Vercel either. Next session (or Dan, directly): add `SUPABASE_SECRET_KEY`,
    `STEAD_OWNER_ID` and `STEAD_PASSCODE` to Vercel's production env, then the live site is gated
    and reads the real (currently empty) vault instead of the sample one.
-4. Seed the six top-level areas (and their known sub-areas, including Family under People) as area items.
+4. ~~Seed the six top-level areas~~ Done 5 Oct: `apps/web/src/lib/seed-areas.ts` defines Uni,
+   Career, Faith, Health, Personal, People, plus the known sub-areas (UWAYE under Uni; INPEX and
+   Gyprocking under Career; Training, Exercise, Diet, Sleep under Health; Family under People).
+   Icons and Blend colours are set on the four documented in `docs/design/README.md` (Family, Faith,
+   Uni, Health); Career, Personal, People and the undocumented sub-areas are left unstyled rather
+   than inventing a look Dan hasn't chosen. `seedAreas()` is idempotent (checks each slug, updates
+   instead of duplicating) and was run twice against the live project through a temporary gated
+   route: first run created all 14 areas, second run updated the same 14 with no duplicates,
+   confirmed directly in `public.items`. **Flag for Dan:** Family carries the `commitment: 10`
+   (hours/week) placeholder from the Phase 0 sample vault, since this step's brief named "the Family
+   ring commitment" specifically. Faith, Uni and Health have no real weekly-hour target recorded
+   anywhere, so their rings won't mean anything until Dan sets one.
 5. Capture box with "Saves as" chips; natural-language dates parsed locally first, Claude (Haiku)
    only for type, area and people. Every call logged to `claude_usage` and checked against the cap.
 6. Home v3 layout: Needs you, Today, next 7 days, side column. Design reference is the
