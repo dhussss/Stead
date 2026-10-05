@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Theme palettes</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;background:#FAFAF9;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;color:#1D1D1F;-webkit-font-smoothing:antialiased}
+a{color:#1D1D1F}a:hover{color:#000000}
+</style>
+</helmet>
+<div style="width: 1440px; box-sizing: border-box; padding: 56px; background: #FAFAF9; display: flex; flex-direction: column; gap: 32px">
+  <header>
+    <h1 style="margin: 0; font-size: 34px; font-weight: 700; letter-spacing: -0.02em">Themes</h1>
+    <p style="margin: 8px 0 0; font-size: 17px; color: #6E6E73">Each theme has a main colour, a light version of it, and one complementary accent, all sitting on a tinted window. Area colours sit underneath and are set separately.</p>
+  </header>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px">
+    <sc-for list="{{themes}}" as="t" hint-placeholder-count="6">
+      <div style="border-radius: 22px; background: #FFFFFF; border: 1px solid #EDEDEB; overflow: hidden">
+        <div style="background: {{t.tint}}; padding: 14px; display: flex; gap: 10px; height: 150px; box-sizing: border-box">
+          <div style="width: 54px; display: flex; flex-direction: column; gap: 6px">
+            <span style="height: 10px; border-radius: 5px; background: rgba(255,255,255,0.85)"></span>
+            <span style="height: 10px; border-radius: 5px; background: rgba(255,255,255,0.45)"></span>
+            <span style="height: 10px; border-radius: 5px; background: rgba(255,255,255,0.45)"></span>
+          </div>
+          <div style="flex: 1; background: #FFFFFF; border-radius: 12px; padding: 12px; display: flex; flex-direction: column; gap: 8px">
+            <span style="height: 10px; width: 70%; border-radius: 5px; background: #1D1D1F"></span>
+            <span style="height: 22px; border-radius: 8px; background: {{t.light}}"></span>
+            <span style="display: flex; gap: 6px"><span style="font-size: 11px; font-weight: 600; color: #FFFFFF; background: {{t.main}}; border-radius: 999px; padding: 4px 10px">Ask</span><span style="font-size: 11px; font-weight: 600; color: {{t.accent2Ink}}; background: {{t.accent2Soft}}; border-radius: 999px; padding: 4px 10px">Reflect</span></span>
+          </div>
+        </div>
+        <div style="padding: 16px; display: flex; flex-direction: column; gap: 10px">
+          <div style="font-size: 17px; font-weight: 650">{{t.name}}</div>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap"><div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start"><span style="width: 40px; height: 40px; border-radius: 12px; background: {{t.tint}}; border: 1px solid rgba(0,0,0,0.06)"></span><span style="font-size: 11px; color: #3A3A3C">Tint</span><span style="font-size: 11px; color: #6E6E73; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">{{t.tint}}</span></div><div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start"><span style="width: 40px; height: 40px; border-radius: 12px; background: {{t.main}}"></span><span style="font-size: 11px; color: #3A3A3C">Main</span><span style="font-size: 11px; color: #6E6E73; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">{{t.main}}</span></div><div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start"><span style="width: 40px; height: 40px; border-radius: 12px; background: {{t.light}}; border: 1px solid rgba(0,0,0,0.06)"></span><span style="font-size: 11px; color: #3A3A3C">Light</span><span style="font-size: 11px; color: #6E6E73; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">{{t.light}}</span></div><div style="display: flex; flex-direction: column; gap: 4px; align-items: flex-start"><span style="width: 40px; height: 40px; border-radius: 12px; background: {{t.accent2}}"></span><span style="font-size: 11px; color: #3A3A3C">Accent</span><span style="font-size: 11px; color: #6E6E73; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">{{t.accent2}}</span></div></div>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <section style="border-radius: 22px; background: #FFFFFF; border: 1px solid #EDEDEB; padding: 24px; display: flex; flex-direction: column; gap: 18px">
+    <h2 style="margin: 0; font-size: 20px; font-weight: 650">Area colour sets</h2>
+    <sc-for list="{{areaSets}}" as="a" hint-placeholder-count="3">
+      <div style="display: flex; align-items: center; gap: 20px; flex-wrap: wrap">
+        <span style="width: 120px; font-size: 15px; font-weight: 600">{{a.name}}</span>
+        <sc-for list="{{a.colors}}" as="c" hint-placeholder-count="4">
+          <div style="display: flex; align-items: center; gap: 8px">
+            <span style="width: 32px; height: 32px; border-radius: 16px; background: {{c.hex}}"></span>
+            <span style="font-size: 13px; color: #3A3A3C">{{c.label}}</span>
+            <span style="font-size: 11px; color: #8E8E93; font-family: ui-monospace, SFMono-Regular, Menlo, monospace">{{c.hex}}</span>
+          </div>
+        </sc-for>
+      </div>
+    </sc-for>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    function set(name, f, fa, u, b) { return { name: name, colors: [{ label: 'Family', hex: f }, { label: 'Faith', hex: fa }, { label: 'Uni', hex: u }, { label: 'Body', hex: b }] }; }
+    return {
+      themes: [
+        { name: 'Ocean · Coral', tint: '#D9E4F0', main: '#2B5C9E', light: '#EAF1FA', accent2: '#E07A5F', accent2Soft: '#FBE9E3', accent2Ink: '#A3482F' },
+        { name: 'Ocean · Sand', tint: '#DCE5EE', main: '#24507F', light: '#E9F0F7', accent2: '#D4A24C', accent2Soft: '#F8EEDB', accent2Ink: '#8A6420' },
+        { name: 'Fog · Ochre', tint: '#E4E8EC', main: '#3E5568', light: '#EEF2F5', accent2: '#C98B3B', accent2Soft: '#F7EBD9', accent2Ink: '#8A5A1C' },
+        { name: 'Fog · Rose', tint: '#E6E8EC', main: '#46586B', light: '#EFF2F5', accent2: '#C9667E', accent2Soft: '#F8E6EB', accent2Ink: '#923A50' },
+        { name: 'Graphite · Amber', tint: '#E2E2E5', main: '#2C2C30', light: '#F0F0F2', accent2: '#E0953A', accent2Soft: '#FBEEDC', accent2Ink: '#94591A' },
+        { name: 'Graphite · Blue', tint: '#E1E3E7', main: '#26272B', light: '#EFF0F3', accent2: '#4F7FD1', accent2Soft: '#E6EEFB', accent2Ink: '#2A56A0' }
+      ],
+      areaSets: [
+        set('Blend (in use)', '#DE7D66', '#A688C8', '#5689C4', '#6AA59C'),
+        set('Muted', '#D9806F', '#9A8BD6', '#6E92D6', '#6FAE98'),
+        set('Warm', '#E07A5F', '#B07BAC', '#3D7EA6', '#E0A458')
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Home on the phone, direction A</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Helvetica Neue",system-ui,sans-serif;color:#1C1C1E;-webkit-font-smoothing:antialiased}
+a{color:#2F6FE0;text-decoration:none}a:hover{color:#1F4FA8}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</helmet>
+<div style="width: 390px; height: 844px; box-sizing: border-box; background: #F4F4F1; display: flex; flex-direction: column; overflow: hidden">
+  <div style="flex: 1; overflow: hidden; padding: 56px 18px 0; display: flex; flex-direction: column; gap: 14px">
+    <header style="display: flex; justify-content: space-between; align-items: flex-end">
+      <div><div style="font-size: 13px; color: #8A8A90">Mon 5 Oct</div><h1 style="margin: 2px 0 0; font-size: 30px; font-weight: 700; letter-spacing: -0.02em">Summary</h1></div>
+      <div style="width: 36px; height: 36px; border-radius: 18px; background: #D9D8D3; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600">DH</div>
+    </header>
+
+    <div style="display: flex; align-items: center; gap: 10px; background: #FFFFFF; border-radius: 16px; padding: 6px 6px 6px 14px">
+      <label for="cap-p" class="vh">Capture</label>
+      <input id="cap-p" type="text" placeholder="Capture anything" style="flex: 1; min-width: 0; border: 0; outline: none; background: transparent; font-size: 16px; font-family: inherit; padding: 10px 0">
+      <button aria-label="Capture by voice" style="width: 44px; height: 44px; border-radius: 22px; border: 0; background: #1C1C1E; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3"></path></svg></button>
+    </div>
+
+    <section aria-label="Needs attention" style="background: #FFFFFF; border-radius: 16px; padding: 14px">
+      <h2 style="margin: 0 0 10px; font-size: 15px; font-weight: 600">Needs attention</h2>
+      <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: #FDECEA"><span style="width: 9px; height: 9px; border-radius: 5px; background: #D93B30"></span><span style="flex: 1">Log Friday's site hours</span><span style="font-size: 12px; font-weight: 600; color: #B4271D">Overdue</span></div>
+        <div style="display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 10px; background: #FDF3E4"><span style="width: 9px; height: 9px; border-radius: 5px; background: #E08A00"></span><span style="flex: 1">CHPR5522 assignment [n]</span><span style="font-size: 12px; color: #8A5300">Wed</span></div>
+      </div>
+    </section>
+
+    <section aria-label="Next 10 days" style="background: #FFFFFF; border-radius: 16px; padding: 14px">
+      <h2 style="margin: 0 0 10px; font-size: 15px; font-weight: 600">Next 10 days</h2>
+      <div style="overflow-x: auto">
+        <div style="display: flex; gap: 8px; min-width: max-content">
+          <sc-for list="{{days}}" as="d" hint-placeholder-count="10">
+            <div style="width: 72px; flex-shrink: 0; border-radius: 12px; padding: 8px; background: {{d.bg}}; display: flex; flex-direction: column; gap: 4px; min-height: 96px">
+              <div style="font-size: 11px; color: {{d.labelColor}}">{{d.dow}}</div>
+              <div style="font-size: 18px; font-weight: 700; color: {{d.numColor}}">{{d.num}}</div>
+              <div style="font-size: 10.5px; line-height: 1.3; color: {{d.textColor}}">{{d.first}}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section aria-label="This week" style="background: #FFFFFF; border-radius: 16px; padding: 14px; display: flex; align-items: center; gap: 16px">
+      <svg width="84" height="84" viewBox="0 0 140 140" role="img" aria-label="Weekly rings: Family, Faith, Uni, Body">
+        <g transform="rotate(-90 70 70)" fill="none" stroke-linecap="round" stroke-width="12">
+          <circle cx="70" cy="70" r="58" stroke="#FDE6E1"></circle><circle cx="70" cy="70" r="58" stroke="#F0563D" stroke-dasharray="218.6 364.4"></circle>
+          <circle cx="70" cy="70" r="44" stroke="#EEE8FD"></circle><circle cx="70" cy="70" r="44" stroke="#7C5CF0" stroke-dasharray="124.4 276.5"></circle>
+          <circle cx="70" cy="70" r="30" stroke="#E3ECFD"></circle><circle cx="70" cy="70" r="30" stroke="#2F6FE0" stroke-dasharray="150.8 188.5"></circle>
+          <circle cx="70" cy="70" r="16" stroke="#E4F6EC"></circle><circle cx="70" cy="70" r="16" stroke="#1FA36A" stroke-dasharray="30.2 100.5"></circle>
+        </g>
+      </svg>
+      <div style="display: grid; grid-template-columns: auto auto; gap: 4px 12px; font-size: 13px"><span style="color: #C8402B; font-weight: 600">Family</span><span style="color: #6243D6; font-weight: 600">Faith</span><span style="color: #1F4FA8; font-weight: 600">Uni</span><span style="color: #17633F; font-weight: 600">Body</span></div>
+    </section>
+  </div>
+
+  <nav aria-label="Tabs" style="display: flex; justify-content: space-around; padding: 10px 8px 28px; background: rgba(255,255,255,0.92); border-top: 1px solid #E0DFDA">
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: #1C1C1E; font-weight: 600; min-width: 56px; min-height: 44px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1C1C1E" stroke-width="2" stroke-linecap="round"><path d="M4 11l8-7 8 7v9a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"></path></svg>Home</a>
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: #8A8A90; min-width: 56px; min-height: 44px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A8A90" stroke-width="2" stroke-linecap="round"><rect x="4" y="4" width="16" height="16" rx="4"></rect><path d="M8 12l3 3 5-6"></path></svg>Tasks</a>
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: #8A8A90; min-width: 56px; min-height: 44px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A8A90" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h7"></path></svg>Reflect</a>
+    <a href="#" style="display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: #8A8A90; min-width: 56px; min-height: 44px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8A8A90" stroke-width="2" stroke-linecap="round"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"></path></svg>Claude</a>
+  </nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var raw = [['Mon','5','Lecture'],['Tue','6','Site'],['Wed','7','CHPR5522 due'],['Thu','8','ENVE4401 prac'],['Fri','9','Site'],['Sat','10','MMA'],['Sun','11','Church'],['Mon','12','Lecture'],['Tue','13','Site'],['Wed','14','UWAYE exec']];
+    return { days: raw.map(function (r, i) { var t = i === 0; return { dow: r[0], num: r[1], first: r[2], bg: t ? '#1C1C1E' : '#F7F6F3', labelColor: t ? '#BDBDC2' : '#8A8A90', numColor: t ? '#FFFFFF' : '#1C1C1E', textColor: t ? '#E5E5EA' : '#3A3A3F' }; }) };
+  }
+}
+</script>
+</body>
+</html>
