@@ -6,4 +6,5 @@ export * from "./urgency";
 export * from "./sections";
 export * from "./store";
 export * from "./time";
+export * from "./capture-dates";
 export * from "./vault";
