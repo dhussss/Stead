@@ -1,4 +1,5 @@
 import { isoLocal, needsYou, urgency, type Item } from "@stead/core";
+import { CaptureBox } from "./capture-box";
 import { openVault } from "@/lib/vault";
 
 export const dynamic = "force-dynamic";
@@ -44,6 +45,8 @@ export default async function Home() {
           Phase 0 skeleton: {report.indexed} items read from the sample vault
           {report.errors.length ? `, ${report.errors.length} files need attention` : ""}.
         </p>
+
+        <CaptureBox />
 
         <h2>Needs you</h2>
         {attention.length === 0 && <p className="sub">Nothing has crossed the line.</p>}
