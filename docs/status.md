@@ -35,6 +35,14 @@ and by Dan using the preview deployment on his phone.
   - Health holds training, exercise, diet and sleep.
   - People holds every person page.
   - Sub-areas sit under these via `parent`. New top-level areas still need Dan's say-so.
+- **Access gate: a single 6-digit passcode.** Next.js middleware blocks every route (pages, API,
+  server actions) until the code is entered. The code lives in `STEAD_PASSCODE` (Vercel secret).
+  On success, set an httpOnly, Secure, SameSite=Lax cookie holding an HMAC of the code, valid 90
+  days, so changing the code logs every device out. A 6-digit code is only safe with attempt
+  limits: lock out after 5 wrong tries for 15 minutes, tracked server-side (a small table with
+  owner and RLS, per the rules), plus a short delay on every failure. One number pad screen, no
+  accounts, no username. Build it before any real secret goes into Vercel.
+- **Family is a sub-area under People** and carries the Family weekly commitment, so its ring stays.
 - **Daily driving starts when Stead works as a near-complete product**, not after Phase 1. In
   practice that means Phases 1 to 3 done (capture and today, closing the loop with Tend and
   Hearth, the Claude connector and the first migration pass). Learn (Phase 4) isn't required,
@@ -49,22 +57,17 @@ In order:
 2. Supabase adapters behind the core's interfaces: a `FileStore` on the private `vault` bucket
    (files under `<owner id>/`) and an `ItemIndex` on `public.items` + `public.links`, both using the
    secret key server-side only. Keep them outside `packages/core`.
-3. Seed the six top-level areas (and their known sub-areas) as area items.
-4. Capture box with "Saves as" chips; natural-language dates parsed locally first, Claude (Haiku)
+3. The passcode gate (see Decisions), before real secrets go into Vercel.
+4. Seed the six top-level areas (and their known sub-areas, including Family under People) as area items.
+5. Capture box with "Saves as" chips; natural-language dates parsed locally first, Claude (Haiku)
    only for type, area and people. Every call logged to `claude_usage` and checked against the cap.
-5. Home v3 layout: Needs you, Today, next 7 days, side column. Design reference is the
+6. Home v3 layout: Needs you, Today, next 7 days, side column. Design reference is the
    "Second Brain Home Directions" canvas.
-6. 7-day calendar from iCloud over CalDAV (app-specific password as a Vercel secret), skipping
+7. 7-day calendar from iCloud over CalDAV (app-specific password as a Vercel secret), skipping
    "Monkey Notes".
-7. Installable PWA with web push for timed tasks.
+8. Installable PWA with web push for timed tasks.
 
 ## Open decisions
 
-- **A lightweight access gate.** Claude recommends a single shared passcode checked by Next.js
-  middleware before anything with real data, the CalDAV password or the Anthropic key goes live,
-  because the app will sit on a public URL. It's a lock on the front door, not a sign-in system:
-  about 20 lines, no accounts. Waiting on Dan.
-- **Where the Family ring lives** now that Family isn't a top-level area. Proposed: a Family
-  sub-area under People that carries the weekly commitment, so the ring survives. Waiting on Dan.
 - Hosted file store: Supabase Storage as primary, mirrored to a private GitHub vault repo.
   Chosen by Claude because iCloud can't be reached from a server; Dan can still change it.
